@@ -8,17 +8,17 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   return (
-    <header className="bg-gray-900/50 backdrop-blur-sm border-b border-gray-700/50 sticky top-0 z-10">
+    <header className="bg-stone-900/40 backdrop-blur-md border-b border-white/5 sticky top-0 z-20">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-yellow-200 to-orange-500 drop-shadow-sm tracking-tight">
           Fashio.AI
         </h1>
         {user && (
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-300 hidden sm:block">Welcome, {user.email}</span>
+            <span className="text-sm text-stone-300 hidden sm:block">Welcome, <span className="text-yellow-100">{user.email}</span></span>
             <button
               onClick={onLogout}
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-700/50 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-stone-300 bg-stone-800/50 border border-stone-700 rounded-lg hover:bg-orange-950/30 hover:text-orange-200 hover:border-orange-500/30 transition-all duration-300"
             >
               Logout
             </button>

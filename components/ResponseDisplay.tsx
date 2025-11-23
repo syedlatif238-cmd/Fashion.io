@@ -16,22 +16,22 @@ const SimpleMarkdownRenderer = ({ content }: { content: string }) => {
 
     const renderLine = (line: string, index: number) => {
         if (line.startsWith('# ')) {
-            return <h1 key={index} className="text-2xl font-bold mt-4 mb-2">{line.substring(2)}</h1>;
+            return <h1 key={index} className="text-2xl font-bold mt-4 mb-2 text-yellow-100">{line.substring(2)}</h1>;
         }
         if (line.startsWith('## ')) {
-            return <h2 key={index} className="text-xl font-bold mt-3 mb-2">{line.substring(3)}</h2>;
+            return <h2 key={index} className="text-xl font-bold mt-3 mb-2 text-orange-200">{line.substring(3)}</h2>;
         }
         if (line.startsWith('### ')) {
-            return <h3 key={index} className="text-lg font-bold mt-2 mb-1">{line.substring(4)}</h3>;
+            return <h3 key={index} className="text-lg font-bold mt-2 mb-1 text-orange-100">{line.substring(4)}</h3>;
         }
         if (line.trim().startsWith('* ') || line.trim().startsWith('- ')) {
             const content = line.trim().substring(2);
             // Handle bold text **text**
             const parts = content.split('**');
             const renderedContent = parts.map((part, i) =>
-                i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+                i % 2 === 1 ? <strong key={i} className="text-yellow-200">{part}</strong> : part
             );
-            return <li key={index} className="ml-6 list-disc">{renderedContent}</li>;
+            return <li key={index} className="ml-6 list-disc text-stone-300">{renderedContent}</li>;
         }
         if (line.trim() === '') {
             return <br key={index} />;
@@ -39,10 +39,10 @@ const SimpleMarkdownRenderer = ({ content }: { content: string }) => {
         // Handle bold text **text**
         const parts = line.split('**');
         const renderedLine = parts.map((part, i) =>
-            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+            i % 2 === 1 ? <strong key={i} className="text-yellow-200">{part}</strong> : part
         );
 
-        return <p key={index} className="my-1">{renderedLine}</p>;
+        return <p key={index} className="my-1 text-stone-200 leading-relaxed">{renderedLine}</p>;
     };
 
     return (
@@ -57,18 +57,21 @@ export const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ response, isLo
   const webSources = sources?.filter(s => s.web);
 
   return (
-    <div className="w-full h-full min-h-[300px] flex flex-col bg-gray-900/70 rounded-lg prose prose-invert prose-p:text-gray-300 prose-headings:text-white prose-strong:text-white">
-      <div className="flex-grow overflow-y-auto p-4">
+    <div className="w-full h-full min-h-[300px] flex flex-col bg-stone-900/50 rounded-xl custom-scrollbar">
+      <div className="flex-grow overflow-y-auto p-4 custom-scrollbar">
         {isLoading && (
           <div className="flex flex-col items-center justify-center h-full">
             <Spinner />
-            <p className="mt-4 text-gray-400">Your stylist is thinking...</p>
+            <p className="mt-4 text-orange-200/70 animate-pulse">Your stylist is thinking...</p>
           </div>
         )}
         {!isLoading && !response && (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <p className="text-gray-500">Your fashion advice will appear here.</p>
-             <p className="text-sm text-gray-600">Upload an image and ask a question to get started.</p>
+          <div className="flex flex-col items-center justify-center h-full text-center p-8">
+            <div className="w-16 h-16 bg-stone-800/50 rounded-full flex items-center justify-center mb-4 border border-stone-700">
+               <span className="text-3xl">✨</span>
+            </div>
+            <p className="text-stone-400 font-medium">Your fashion advice will appear here.</p>
+             <p className="text-sm text-stone-500 mt-2">Upload an image and ask a question to get started.</p>
           </div>
         )}
         {!isLoading && response && (
@@ -76,8 +79,8 @@ export const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ response, isLo
         )}
       </div>
       {!isLoading && webSources && webSources.length > 0 && (
-        <div className="mt-4 p-4 border-t border-gray-700">
-            <h4 className="text-sm font-semibold text-gray-400 mb-2">Sources</h4>
+        <div className="mt-4 p-4 border-t border-stone-800/80 bg-stone-900/30 rounded-b-xl">
+            <h4 className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">Sources</h4>
             <ul className="space-y-1 text-left">
                 {webSources.map((source, index) => (
                     <li key={index} className="text-xs list-none p-0 m-0">
@@ -85,7 +88,7 @@ export const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ response, isLo
                             href={source.web.uri} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-purple-400 hover:text-purple-300 hover:underline truncate block"
+                            className="text-orange-400 hover:text-yellow-300 hover:underline truncate block transition-colors"
                             title={source.web.title || source.web.uri}
                         >
                            {index + 1}. {source.web.title || source.web.uri}
